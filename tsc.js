@@ -16,7 +16,11 @@ var TurnBasedBattles;
     var Battles = /** @class */ (function (_super) {
         __extends(Battles, _super);
         function Battles(width, height) {
-            var _this = _super.call(this, window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, "phaser-div") || this;
+            var _this = 
+            //super(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, "phaser-div");
+            _super.call(this, 1280 * window.devicePixelRatio, 720 * window.devicePixelRatio, Phaser.CANVAS, "phaser-div") || this;
+            //super(window.innerWidth * 1280, window.innerHeight * 720, Phaser.CANVAS, "phaser-div");
+            //super(100, 200, Phaser.CANVAS, "phaser-div");
             _this.state.add(TurnBasedBattles.BOOT_STATE, TurnBasedBattles.Boot, false);
             _this.state.add(TurnBasedBattles.PRELOAD_STATE, TurnBasedBattles.Preload, false);
             _this.state.add(TurnBasedBattles.MENU_STATE, TurnBasedBattles.Menu, false);
@@ -1018,23 +1022,10 @@ var TurnBasedBattles;
         SelectUnits.prototype.hideIcons = function (unitFormation, concat) {
             var _this = this;
             if (concat === void 0) { concat = null; }
-            // tween objects to invisible
-            //this.game.add.tween(DrawUi.userMoneyText).to({alpha: 0}, 250, Phaser.Easing.Default, true)
-            //    .onComplete.addOnce(() => {
-            //    this.unitSelectionSprite.x = HIDE_FROM_SCREEN;
-            //});
             this.game.add.tween(this.unitInfoText).to({ alpha: 0 }, 250, Phaser.Easing.Default, true)
                 .onComplete.addOnce(function () {
                 _this.unitSelectionSprite.x = TurnBasedBattles.HIDE_FROM_SCREEN;
             });
-            //this.game.add.tween(this.slotsAvaliableText).to({ alpha: 0 }, 250, Phaser.Easing.Default, true)
-            //    .onComplete.addOnce(() => {
-            //        this.unitSelectionSprite.x = HIDE_FROM_SCREEN;
-            //    });
-            //this.game.add.tween(this.resetUnitsIcon).to({ alpha: 0 }, 250, Phaser.Easing.Default, true)
-            //    .onComplete.addOnce(() => {
-            //        this.unitSelectionSprite.x = HIDE_FROM_SCREEN;
-            //    });
             this.game.add.tween(this.unitSelectionSprite).to({ alpha: 0 }, 250, Phaser.Easing.Default, true)
                 .onComplete.addOnce(function () {
                 _this.unitSelectionSprite.x = TurnBasedBattles.HIDE_FROM_SCREEN;
@@ -1062,15 +1053,15 @@ var TurnBasedBattles;
             if (concat === void 0) { concat = null; }
             for (var currentClickerIndex = 0; currentClickerIndex < this.clickerSprites.length; currentClickerIndex++) {
                 var clicker = this.clickerSprites[currentClickerIndex];
-                console.log("I'm at export array at current clicker index of: " + currentClickerIndex.toString());
+                //console.log("I'm at export array at current clicker index of: " + currentClickerIndex.toString());
                 if (!concat) {
-                    console.log("SPLICED! at currentClickerIndex with null, is finished:" + concat);
+                    //console.log("SPLICED! at currentClickerIndex with null, is finished:" + concat);
                     this.unitFormation.splice(currentClickerIndex, 1, null);
                 }
-                console.log("DBG IVR1, Given unitFormation:");
-                console.log(unitFormation);
-                console.log("DBG IVR2, Current this.unitFormation:");
-                console.log(this.unitFormation);
+                //console.log("DBG IVR1, Given unitFormation:");
+                //console.log(unitFormation);
+                //console.log("DBG IVR2, Current this.unitFormation:");
+                //console.log(this.unitFormation);
                 for (var currentUnitIndex = 0; currentUnitIndex < unitFormation.length; currentUnitIndex++) {
                     if (unitFormation[currentUnitIndex] === null && currentUnitIndex < TOTAL_UNIT_SLOTS) {
                         console.log("Null so no export");
@@ -1089,8 +1080,8 @@ var TurnBasedBattles;
                     }
                 }
             }
-            console.log("The final exported array is this.unitFormation: ");
-            console.log(this.unitFormation);
+            //console.log("The final exported array is this.unitFormation: ");
+            //console.log(this.unitFormation);
         };
         return SelectUnits;
     }(Phaser.Sprite));
@@ -2891,6 +2882,7 @@ var TurnBasedBattles;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Boot.prototype.preload = function () {
+            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.game.load.image("preloadBackground", "src/assets/backgrounds/preload-bg.jpg");
             this.game.load.image("mechanism-1", "src/assets/UI/mechanism-1.png");
             this.game.load.image("mechanism-2", "src/assets/UI/mechanism-2.png");
@@ -2906,9 +2898,9 @@ var TurnBasedBattles;
                 stroke: "#000000",
                 strokeThickness: 3
             });
-            //  this.game.time.events.loop(1500, () => {
-            //      this.introText.text += ".";
-            //  });
+            this.game.time.events.loop(1500, function () {
+                _this.introText.text += ".";
+            });
             this.game.time.events.loop(20, function () {
                 _this.preloadImage.angle += 0.5;
                 _this.preloadImageClone.angle += -0.5;
@@ -2919,10 +2911,11 @@ var TurnBasedBattles;
             this.preloadImageClone = this.game.add.sprite(700, 400, "mechanism-2");
             this.preloadImageClone.angle = 90;
             this.preloadImageClone.anchor.setTo(0.5, 0.5);
-            console.log("Start1");
-            this.game.state.start(TurnBasedBattles.PRELOAD_STATE);
-            //  this.game.time.events.add(15000, () => {
-            //  });
+            this.game.time.events.add(5000, function () {
+                console.log("Start1");
+                console.log("Start2");
+                _this.game.state.start(TurnBasedBattles.PRELOAD_STATE);
+            });
         };
         return Boot;
     }(Phaser.State));
@@ -3851,11 +3844,8 @@ var TurnBasedBattles;
             // UI
             this.game.load.image("nextIconOr", "src/assets/UI/nextIconOr.png");
             this.game.load.image("returnIconO", "src/assets/UI/returnIconO.png");
-            this.game.load.image("endTurnIcon", "src/assets/UI/endTurnIcon.png");
             this.game.load.image("clicker", "src/assets/UI/clicker.png");
             this.game.load.image("gold", "src/assets/UI/gold.png");
-            //this.game.load.image("mechanism-1", "src/assets/UI/mechanism-1.png");
-            //this.game.load.image("mechanism-2", "src/assets/UI/mechanism-2.png");
             // Map
             this.game.load.image("battleSpot", "src/assets/Map/battleSpot.png");
             this.game.load.image("map-bg", "src/assets/Map/map-bg.jpg");
