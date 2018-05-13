@@ -16,10 +16,16 @@ var TurnBasedBattles;
     var Battles = /** @class */ (function (_super) {
         __extends(Battles, _super);
         function Battles(width, height) {
-            var _this = _super.call(this, 1280 * window.devicePixelRatio, 720 * window.devicePixelRatio, Phaser.CANVAS, "phaser-div") || this;
+            var _this = 
+            //super(1280 * window.devicePixelRatio, 720 * window.devicePixelRatio, Phaser.CANVAS, "phaser-div");
             //super(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, "phaser-div");
             //super(window.innerWidth * 1280, window.innerHeight * 720, Phaser.CANVAS, "phaser-div");
-            //super(100, 200, Phaser.CANVAS, "phaser-div");
+            _super.call(this, GAME_WIDHT, GAME_HEIGHT, Phaser.CANVAS, "phaser-div") || this;
+            _this.width = GAME_WIDHT;
+            _this.height = GAME_HEIGHT;
+            console.log(_this.width, _this.height);
+            console.log(window.innerWidth);
+            console.log(window.devicePixelRatio);
             _this.state.add(TurnBasedBattles.BOOT_STATE, TurnBasedBattles.Boot, false);
             _this.state.add(TurnBasedBattles.PRELOAD_STATE, TurnBasedBattles.Preload, false);
             _this.state.add(TurnBasedBattles.MENU_STATE, TurnBasedBattles.Menu, false);
@@ -32,9 +38,9 @@ var TurnBasedBattles;
         return Battles;
     }(Phaser.Game));
     window.onload = function () {
-        console.log("Audio context233");
+        console.log("Audio context4");
         var context = new AudioContext();
-        var theGame = new Battles(GAME_WIDHT, GAME_HEIGHT);
+        var theGame = new Battles();
     };
 })(TurnBasedBattles || (TurnBasedBattles = {}));
 var TurnBasedBattles;
