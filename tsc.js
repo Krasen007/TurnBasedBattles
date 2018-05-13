@@ -16,9 +16,8 @@ var TurnBasedBattles;
     var Battles = /** @class */ (function (_super) {
         __extends(Battles, _super);
         function Battles(width, height) {
-            var _this = 
+            var _this = _super.call(this, 1280 * window.devicePixelRatio, 720 * window.devicePixelRatio, Phaser.CANVAS, "phaser-div") || this;
             //super(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, "phaser-div");
-            _super.call(this, 1280 * window.devicePixelRatio, 720 * window.devicePixelRatio, Phaser.CANVAS, "phaser-div") || this;
             //super(window.innerWidth * 1280, window.innerHeight * 720, Phaser.CANVAS, "phaser-div");
             //super(100, 200, Phaser.CANVAS, "phaser-div");
             _this.state.add(TurnBasedBattles.BOOT_STATE, TurnBasedBattles.Boot, false);
@@ -33,6 +32,8 @@ var TurnBasedBattles;
         return Battles;
     }(Phaser.Game));
     window.onload = function () {
+        console.log("Audio context233");
+        var context = new AudioContext();
         var theGame = new Battles(GAME_WIDHT, GAME_HEIGHT);
     };
 })(TurnBasedBattles || (TurnBasedBattles = {}));
@@ -1064,18 +1065,18 @@ var TurnBasedBattles;
                 //console.log(this.unitFormation);
                 for (var currentUnitIndex = 0; currentUnitIndex < unitFormation.length; currentUnitIndex++) {
                     if (unitFormation[currentUnitIndex] === null && currentUnitIndex < TOTAL_UNIT_SLOTS) {
-                        console.log("Null so no export");
+                        //console.log("Null so no export");
                     }
                     else {
                         if (unitFormation[currentUnitIndex].rectImage.x === clicker.x &&
                             unitFormation[currentUnitIndex].rectImage.y === clicker.y) {
                             this.unitFormation.splice(currentClickerIndex, 1, unitFormation[currentUnitIndex]);
-                            console.log("unitFormation[currentUnitIndex].rectImage matches the clicker!");
-                            console.log(clicker.name + " " + unitFormation[currentUnitIndex].name);
+                            //console.log("unitFormation[currentUnitIndex].rectImage matches the clicker!");
+                            //console.log(clicker.name + " " + unitFormation[currentUnitIndex].name);
                         }
                         else {
-                            console.log("unitFormation[currentUnitIndex] !== null: clicker name:"
-                                + clicker.name + " clicker.x:" + clicker.x + " y:" + clicker.y);
+                            //console.log("unitFormation[currentUnitIndex] !== null: clicker name:"
+                            //    + clicker.name + " clicker.x:" + clicker.x + " y:" + clicker.y);
                         }
                     }
                 }
@@ -2882,7 +2883,8 @@ var TurnBasedBattles;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Boot.prototype.preload = function () {
-            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            //this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.game.load.image("preloadBackground", "src/assets/backgrounds/preload-bg.jpg");
             this.game.load.image("mechanism-1", "src/assets/UI/mechanism-1.png");
             this.game.load.image("mechanism-2", "src/assets/UI/mechanism-2.png");
@@ -2911,9 +2913,9 @@ var TurnBasedBattles;
             this.preloadImageClone = this.game.add.sprite(700, 400, "mechanism-2");
             this.preloadImageClone.angle = 90;
             this.preloadImageClone.anchor.setTo(0.5, 0.5);
-            this.game.time.events.add(5000, function () {
-                console.log("Start1");
-                console.log("Start2");
+            this.game.time.events.add(6000, function () {
+                console.log("start312");
+                console.log("Start21");
                 _this.game.state.start(TurnBasedBattles.PRELOAD_STATE);
             });
         };
@@ -3006,7 +3008,7 @@ var TurnBasedBattles;
                     //                         this.nextUnit.attackStarted);
                     if (!_this.currentUnit.isDone) {
                         _this.CurrentUnitAttack();
-                        console.log("LETS ATTACK NOW");
+                        //console.log("LETS ATTACK NOW");
                     }
                 }
                 else {
@@ -3150,7 +3152,7 @@ var TurnBasedBattles;
             for (var index = 0; index < this.unitFormation.length; index++) {
                 var unit = this.unitFormation[index];
                 if (unit === null) {
-                    console.log("Empty slot at MoveUiSlots");
+                    //console.log("Empty slot at MoveUiSlots");
                 }
                 else {
                     this.MoveUiSlot(this.unitFormation[index], TurnBasedBattles.PSLOT_ARRAY_X[index], TurnBasedBattles.PSLOT_ARRAY_Y[index], true);
@@ -3419,7 +3421,7 @@ var TurnBasedBattles;
             if (this.game.camera.x < this.lvl * TurnBasedBattles.MOVEMENT + TurnBasedBattles.BUFFER) {
                 this.game.camera.x += 10;
                 this.cam.animation.body.moveRight(240);
-                console.log("moving right");
+                //console.log("moving right");
                 this.game.input.enabled = false;
                 this.MovePlayer();
                 this.SpawnEnemies();
@@ -3431,9 +3433,9 @@ var TurnBasedBattles;
         };
         FieldBattle.prototype.EnemiesDead = function (temp) {
             if (temp === void 0) { temp = null; }
-            console.log("Enemies DEAD: " + !(this.unitExists(this.unit1enemy) || this.unitExists(this.unit2enemy) ||
-                this.unitExists(this.unit3enemy) || this.unitExists(this.unit4enemy) ||
-                this.unitExists(this.unit5enemy) || this.unitExists(this.unit6enemy)));
+            //console.log("Enemies DEAD: " + !(this.unitExists(this.unit1enemy) || this.unitExists(this.unit2enemy) ||
+            //    this.unitExists(this.unit3enemy) || this.unitExists(this.unit4enemy) ||
+            //    this.unitExists(this.unit5enemy) || this.unitExists(this.unit6enemy)));
             return temp = !(this.unitExists(this.unit1enemy) || this.unitExists(this.unit2enemy) ||
                 this.unitExists(this.unit3enemy) || this.unitExists(this.unit4enemy) ||
                 this.unitExists(this.unit5enemy) || this.unitExists(this.unit6enemy));
@@ -3772,7 +3774,6 @@ var TurnBasedBattles;
 })(TurnBasedBattles || (TurnBasedBattles = {}));
 var TurnBasedBattles;
 (function (TurnBasedBattles) {
-    //const GAME_NAME_TEXT_COLOR: string = "#8ef756";
     var Menu = /** @class */ (function (_super) {
         __extends(Menu, _super);
         function Menu() {
@@ -3780,7 +3781,6 @@ var TurnBasedBattles;
         }
         Menu.prototype.init = function (uiClass) {
             this.ui = uiClass;
-            //console.log(this.ui.playMusic);
         };
         Menu.prototype.create = function () {
             this.createBackground();
@@ -3792,9 +3792,10 @@ var TurnBasedBattles;
             this.backgroundImage = this.game.add.sprite(0, 0, "menuBackground");
         };
         Menu.prototype.menuGameTitle = function () {
-            //this.titleBanner = this.game.add.sprite(520, 75, "titleBanner");
-            //this.titleBanner.scale.setTo(0.5, 0.5);
-            //this.titleBanner.width = 790;
+            console.log("In menu2345");
+            this.titleBanner = this.game.add.sprite(433, 65, "titleBanner");
+            this.titleBanner.scale.setTo(0.5, 0.5);
+            this.titleBanner.width = 940;
             this.gameTitle = this.game.add.text(630, 80, "Protectors of Goldcrest", { font: TurnBasedBattles.FONT_BERKSHIRE,
                 fontWeight: "bold",
                 fontSize: 55,
@@ -3808,8 +3809,6 @@ var TurnBasedBattles;
 })(TurnBasedBattles || (TurnBasedBattles = {}));
 var TurnBasedBattles;
 (function (TurnBasedBattles) {
-    var BORDER_WIDTH = 5;
-    var GLOW_WIDTH = 15;
     var Preload = /** @class */ (function (_super) {
         __extends(Preload, _super);
         function Preload() {
@@ -3947,7 +3946,6 @@ var TurnBasedBattles;
         };
         Preload.prototype.create = function () {
             this.ui = new TurnBasedBattles.DrawUi(this.game, 0, 0, false);
-            //this.game.state.start(MENU_STATE, false, false, this.ui);
             this.game.state.start(TurnBasedBattles.MENU_STATE, false, false, this.ui);
         };
         return Preload;
