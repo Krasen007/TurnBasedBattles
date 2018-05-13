@@ -23,9 +23,6 @@ var TurnBasedBattles;
             _super.call(this, GAME_WIDHT, GAME_HEIGHT, Phaser.CANVAS, "phaser-div") || this;
             _this.width = GAME_WIDHT;
             _this.height = GAME_HEIGHT;
-            console.log(_this.width, _this.height);
-            console.log(window.innerWidth);
-            console.log(window.devicePixelRatio);
             _this.state.add(TurnBasedBattles.BOOT_STATE, TurnBasedBattles.Boot, false);
             _this.state.add(TurnBasedBattles.PRELOAD_STATE, TurnBasedBattles.Preload, false);
             _this.state.add(TurnBasedBattles.MENU_STATE, TurnBasedBattles.Menu, false);
@@ -38,7 +35,6 @@ var TurnBasedBattles;
         return Battles;
     }(Phaser.Game));
     window.onload = function () {
-        console.log("Audio context4");
         var context = new AudioContext();
         var theGame = new Battles();
     };
@@ -202,6 +198,7 @@ var TurnBasedBattles;
         }
         DrawUi.prototype.drawMenuStateUI = function () {
             var _this = this;
+            this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor2.png'), pointer";
             this.createMenuStartButton();
             this.startButton.events.onInputDown.add(function () {
                 if (_this.playMusic) {
@@ -235,6 +232,7 @@ var TurnBasedBattles;
         };
         DrawUi.prototype.drawMapStateUI = function () {
             var _this = this;
+            this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor2.png'), pointer";
             this.drawReturnIcon();
             this.returnIcon.events.onInputDown.add(function () {
                 _this.clickIconSound();
@@ -247,6 +245,7 @@ var TurnBasedBattles;
         };
         DrawUi.prototype.drawFieldBattleStateUI = function () {
             var _this = this;
+            this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor.png'), pointer";
             // TODO: fix position of ui when the camera is moving
             this.stopCurrentMusic();
             this.clickIconSound();
@@ -341,7 +340,7 @@ var TurnBasedBattles;
                     tempStop = true;
                     // this means the UI so no more ui instances will be created in the next states
                     this.game.state.start(TurnBasedBattles.MAP_STATE, true, false, this, this.unitSelectionMenu.unitFormation);
-                    console.log("How many times");
+                    //console.log("How many times");
                     if (this.playMusic) {
                         this.townTheme.stop();
                         this.mapMusic();
@@ -364,7 +363,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("game_over sound is stopping all");
+                //console.log("game_over sound is stopping all");
             }
         };
         DrawUi.prototype.gameLostMusic = function () {
@@ -374,7 +373,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("game_over sound is stopping all");
+                //console.log("game_over sound is stopping all");
             }
         };
         DrawUi.prototype.gameWinMusic = function () {
@@ -384,7 +383,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("gameWinMusic sound is stopping all");
+                //console.log("gameWinMusic sound is stopping all");
             }
         };
         DrawUi.prototype.bellSound = function () {
@@ -394,13 +393,13 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("clicking sound is stopping all");
+                //console.log("clicking sound is stopping all");
             }
         };
         DrawUi.prototype.stopMusic = function () {
             if (this.playMusic) {
                 this.game.sound.stopAll();
-                console.log("stopMusic sound is stopping all");
+                //console.log("stopMusic sound is stopping all");
             }
         };
         DrawUi.prototype.clickIconSound = function () {
@@ -410,7 +409,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("clicking sound is stopping all");
+                //console.log("clicking sound is stopping all");
             }
         };
         DrawUi.prototype.menuMusic = function () {
@@ -420,7 +419,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("menu music is stopping all");
+                //console.log("menu music is stopping all");
             }
         };
         DrawUi.prototype.townMusic = function () {
@@ -431,7 +430,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("town music is stopping all");
+                //console.log("town music is stopping all");
             }
         };
         DrawUi.prototype.mapMusic = function () {
@@ -441,7 +440,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("map music is stopping all");
+                //console.log("map music is stopping all");
             }
         };
         DrawUi.prototype.battleMusic = function () {
@@ -451,7 +450,7 @@ var TurnBasedBattles;
             }
             else {
                 this.game.sound.stopAll();
-                console.log("map music is stopping all");
+                //console.log("map music is stopping all");
             }
         };
         DrawUi.prototype.stopCurrentMusic = function () {
@@ -497,7 +496,7 @@ var TurnBasedBattles;
                 _this.optionsButtonText.fill = TOP_BUTTON_COLOR;
             });
             this.optionsButton.events.onInputDown.add(function () {
-                console.log("clicked on options");
+                //console.log("clicked on options");
                 if (_this.speakerButton.alpha === 0) {
                     _this.speakerButton.alpha = 1;
                 }
@@ -522,6 +521,11 @@ var TurnBasedBattles;
                     _this.playMusic = true;
                     _this.menuMusic();
                 }
+                _this.speakerButton.tint = TurnBasedBattles.COLOR_HOVER_GREEN_NUM3;
+                _this.muteButton.tint = TurnBasedBattles.COLOR_CLEAR_NUM;
+            });
+            this.speakerButton.events.onInputOut.add(function () {
+                _this.speakerButton.tint = TurnBasedBattles.COLOR_CLEAR_NUM;
             });
         };
         DrawUi.prototype.createMenuMuteButton = function () {
@@ -535,6 +539,11 @@ var TurnBasedBattles;
                     _this.playMusic = false;
                     _this.game.sound.stopAll();
                 }
+                _this.muteButton.tint = TurnBasedBattles.COLOR_HOVER_RED_NUM2;
+                _this.speakerButton.tint = TurnBasedBattles.COLOR_CLEAR_NUM;
+            });
+            this.muteButton.events.onInputOut.add(function () {
+                _this.muteButton.tint = TurnBasedBattles.COLOR_CLEAR_NUM;
             });
         };
         DrawUi.prototype.createMenuExitButton = function () {
@@ -581,18 +590,18 @@ var TurnBasedBattles;
                 _this.drawAllIconsAndText(_this.unitIcons);
                 _this.loadClickers();
                 _this.loadDefaultIcons();
-                console.log("draw icons and text unit icons UNDEFINED");
+                //console.log("draw icons and text unit icons UNDEFINED");
             }
             else {
                 _this.drawAllIconsAndText(_this.unitIcons);
                 _this.loadClickers();
                 _this.loadDefaultIcons();
-                console.log("1. These are the generated units: ");
-                console.log(newUnitFormation);
+                //console.log("1. These are the generated units: ");
+                //console.log(newUnitFormation);
                 _this.generateUnits(newUnitFormation);
-                console.log("draw icons and text not Undefined");
-                console.log("2. These are the generated units: ");
-                console.log(newUnitFormation);
+                //console.log("draw icons and text not Undefined");
+                //console.log("2. These are the generated units: ");
+                //console.log(newUnitFormation);
             }
             return _this;
         }
@@ -600,22 +609,22 @@ var TurnBasedBattles;
             if (open) {
                 if (unitFormation === undefined) {
                     this.showIcons(this.unitIcons, false);
-                    console.log("Frst time from select units and its UNDEFINED");
+                    //console.log("Frst time from select units and its UNDEFINED");
                 }
                 else {
                     unitFormation = unitFormation.concat(this.unitIcons);
                     this.showIcons(unitFormation, true);
-                    console.log("Frst time from select units and its not Undef");
+                    //console.log("Frst time from select units and its not Undef");
                 }
             }
             else {
                 if (unitFormation === undefined) {
-                    console.log("Second time from select units and its UNDEFINED");
+                    //console.log("Second time from select units and its UNDEFINED");
                     this.hideIcons(this.unitIcons, false);
                 }
                 else {
                     unitFormation = unitFormation.concat(this.unitIcons);
-                    console.log("Second time from select units and its not Undef");
+                    //console.log("Second time from select units and its not Undef");
                     this.hideIcons(unitFormation, false);
                 }
             }
@@ -623,42 +632,42 @@ var TurnBasedBattles;
         SelectUnits.prototype.generateUnits = function (unitFormation) {
             this.unitFormation = unitFormation;
             for (var i = 0; i < this.unitFormation.length; i++) {
-                console.log("MSG1");
-                console.log(unitFormation);
-                console.log("MSG2");
-                console.log(this.unitFormation);
+                //console.log("MSG1");
+                //console.log(unitFormation);
+                //console.log("MSG2");
+                //console.log(this.unitFormation);
                 if (this.unitFormation[i] === null) {
                     this.unitFormation.splice(i, 1, null);
-                    console.log("Null" + " at " + i.toString());
+                    //console.log("Null" + " at " + i.toString());
                 }
                 else if (this.unitFormation[i].name === TurnBasedBattles.GOLD_KNIGHT_STR) {
                     this.unitFormation.splice(i, 1, (new TurnBasedBattles.Knight(this.game, TurnBasedBattles.HIDE_FROM_SCREEN, TurnBasedBattles.HIDE_FROM_SCREEN)));
-                    console.log(this.unitFormation[i].name + " at " + i.toString());
+                    //console.log(this.unitFormation[i].name + " at " + i.toString());
                 }
                 else if (this.unitFormation[i].name === TurnBasedBattles.ELF_MAGE_STR) {
                     this.unitFormation.splice(i, 1, (new TurnBasedBattles.Mage(this.game, TurnBasedBattles.HIDE_FROM_SCREEN, TurnBasedBattles.HIDE_FROM_SCREEN)));
-                    console.log(this.unitFormation[i].name + " at " + i.toString());
+                    //console.log(this.unitFormation[i].name + " at " + i.toString());
                 }
                 else if (this.unitFormation[i].name === TurnBasedBattles.WOMAN_ARCHER_STR) {
                     this.unitFormation.splice(i, 1, (new TurnBasedBattles.Archer(this.game, TurnBasedBattles.HIDE_FROM_SCREEN, TurnBasedBattles.HIDE_FROM_SCREEN)));
-                    console.log(this.unitFormation[i].name + " at " + i.toString());
+                    //console.log(this.unitFormation[i].name + " at " + i.toString());
                 }
                 else if (this.unitFormation[i].name === "Knight Spear") {
                     this.unitFormation.splice(i, 1, (new TurnBasedBattles.KnightSpear(this.game, TurnBasedBattles.HIDE_FROM_SCREEN, TurnBasedBattles.HIDE_FROM_SCREEN)));
-                    console.log(this.unitFormation[i].name + " at " + i.toString());
+                    //console.log(this.unitFormation[i].name + " at " + i.toString());
                 }
                 else if (this.unitFormation[i].name === "Knight Axe") {
                     this.unitFormation.splice(i, 1, (new TurnBasedBattles.KnightAxe(this.game, TurnBasedBattles.HIDE_FROM_SCREEN, TurnBasedBattles.HIDE_FROM_SCREEN)));
-                    console.log(this.unitFormation[i].name + " at " + i.toString());
+                    //console.log(this.unitFormation[i].name + " at " + i.toString());
                 }
             }
             for (var index = 0; index < this.unitFormation.length; index++) {
-                console.log("MSG3");
-                console.log(unitFormation);
-                console.log("MSG4");
-                console.log(this.unitFormation);
+                //console.log("MSG3");
+                //console.log(unitFormation);
+                //console.log("MSG4");
+                //console.log(this.unitFormation);
                 if (this.unitFormation[index] === null) {
-                    console.log("Null at set rect and generate units");
+                    //console.log("Null at set rect and generate units");
                 }
                 else {
                     var unit = this.unitFormation[index];
@@ -680,13 +689,13 @@ var TurnBasedBattles;
                 var tempPosX;
                 var tempPosY;
                 if (unit === null) {
-                    console.log(" Null at enable behavoiur");
+                    //console.log(" Null at enable behavoiur");
                 }
                 else {
                     unit.circleImage.events.onDragStart.add(function () {
                         tempPosX = unit.circleImage.x;
                         tempPosY = unit.circleImage.y;
-                        console.log(tempPosX);
+                        //console.log(tempPosX);
                     });
                     unit.circleImage.events.onDragStop.add(function () {
                         _this.clickerSprites.forEach(function (clicker) {
@@ -715,16 +724,16 @@ var TurnBasedBattles;
                 unit.rectImage.x = clicker.x;
                 unit.rectImage.y = clicker.y;
                 unit.circleImage.x = TurnBasedBattles.HIDE_FROM_SCREEN;
-                console.log("the circleimage x position is: " + unit.circleImage.x);
+                //console.log("the circleimage x position is: " + unit.circleImage.x);
             }
             if (unit.circleImage.x === TurnBasedBattles.HIDE_FROM_SCREEN) {
-                console.log("position out of screen");
+                //console.log("position out of screen");
             }
             else if (unit.circleImage.x !== tempX || unit.circleImage.y !== tempX) {
                 unit.circleImage.x = tempX;
                 unit.circleImage.y = tempY;
-                console.log("the temp x position is: " + tempX);
-                console.log("the circleimage x position is: " + unit.circleImage.x);
+                //console.log("the temp x position is: " + tempX);
+                //console.log("the circleimage x position is: " + unit.circleImage.x);
             }
             // set unit icons for spending money
             if ((TurnBasedBattles.DrawUi.avaliableUserMoney >= 0) && (TurnBasedBattles.DrawUi.avaliableUserMoney >= unit.priceCost)) {
@@ -755,35 +764,35 @@ var TurnBasedBattles;
                 var tempPosX;
                 var tempPosY;
                 if (unit === null) {
-                    console.log(" Null at enable clicker of current unit" + currentUnit.toString());
+                    //console.log(" Null at enable clicker of current unit" + currentUnit.toString());
                 }
                 else {
                     unit.rectImage.events.onDragStart.add(function () {
                         tempPosX = unit.rectImage.x;
                         tempPosY = unit.rectImage.y;
-                        console.log(tempPosX);
+                        //console.log(tempPosX);
                     });
                     unit.rectImage.events.onDragStop.add(function () {
-                        console.log("before unit rect image x" + unit.rectImage.x);
+                        //console.log("before unit rect image x" + unit.rectImage.x);
                         _this.clickerSprites.forEach(function (clicker) {
                             for (var checkedUnit = 0; checkedUnit < unitFormation.length; checkedUnit++) {
                                 var unitCheck = unitFormation[checkedUnit];
                                 if (unitCheck === null) {
-                                    console.log(" Null at enable checked unit");
+                                    //console.log(" Null at enable checked unit");
                                 }
                                 else {
-                                    console.log("unit x" + unit.rectImage.x + " unitCheck x" + unitCheck.rectImage.x);
+                                    //console.log("unit x" + unit.rectImage.x + " unitCheck x" + unitCheck.rectImage.x);
                                     if (unit.rectImage.overlap(clicker)) {
                                         unit.rectImage.x = clicker.x;
                                         unit.rectImage.y = clicker.y;
-                                        console.log(" old behaviour");
+                                        //console.log(" old behaviour");
                                     }
                                     else if (unit.name === unitCheck.name) {
-                                        console.log(" unit has the same name as unitcheck, so skip");
+                                        //console.log(" unit has the same name as unitcheck, so skip");
                                     }
                                     else if (unit.rectImage.overlap(unitCheck.rectImage)
                                     /*|| unit.rectImage.x !== tempPosX || unit.rectImage.y !== tempPosY*/ ) {
-                                        console.log(unit.name + " is overlaps over " + unitCheck.name);
+                                        //console.log(unit.name + " is overlaps over " + unitCheck.name);
                                         unit.rectImage.x = tempPosX;
                                         unit.rectImage.y = tempPosY;
                                     }
@@ -801,7 +810,7 @@ var TurnBasedBattles;
             var _this = this;
             unitFormation.forEach(function (unit) {
                 if (unit === null) {
-                    console.log(" Null at unitinfo");
+                    //console.log(" Null at unitinfo");
                 }
                 else {
                     unit.circleImage.events.onInputOver.add(function () {
@@ -1013,8 +1022,8 @@ var TurnBasedBattles;
                         unitFormation[i].circleImage.x = TurnBasedBattles.HIDE_FROM_SCREEN;
                         unitFormation[i].rectImage.x = this.clickerSprites[i].x;
                         unitFormation[i].rectImage.y = this.clickerSprites[i].y;
-                        console.log("unit number " + i + " " + unitFormation[i].name);
-                        console.log(unitFormation);
+                        //console.log("unit number " + i + " " + unitFormation[i].name);
+                        //console.log(unitFormation);
                     }
                     //console.log(i + "   " + unitIcons[i].name);
                     this.game.add.tween(unitFormation[i].circleImage).to({ alpha: 1 }, 250, Phaser.Easing.Default, true);
@@ -1187,18 +1196,18 @@ var TurnBasedBattles;
                             //console.log("Upgraded!" + Knight.strength);
                             upgrade.tint = 0xbaadb9;
                             //Knight.strength += 200;
-                            // console.log("Upgraded!" + Knight.strength);
+                            // //console.log("Upgraded!" + Knight.strength);
                             if (unitFormation === undefined) {
-                                console.log("Undefined unit formation!");
+                                //console.log("Undefined unit formation!");
                             }
                             else {
                                 unitFormation.forEach(function (unit) {
                                     if (unit === null) {
-                                        console.log("Null!");
+                                        //console.log("Null!");
                                     }
                                     else {
                                         unit.strength += 200;
-                                        console.log("Upgraded!" + unit.strength);
+                                        //console.log("Upgraded!" + unit.strength);
                                     }
                                 });
                             }
@@ -1293,16 +1302,16 @@ var TurnBasedBattles;
         Unit.prototype.TakeDamage = function (damage) {
             this.isAttacked = true;
             this.health -= damage;
-            console.log(this.health, this.defaultHealth);
+            //console.log(this.health, this.defaultHealth);
             this.HPbarTop.scale.setTo(this.estimateHealthScale(), TurnBasedBattles.SIZE_HP - 0.02);
-            console.log(this.name, this.health);
+            //console.log(this.name, this.health);
         };
         Unit.prototype.DoUnitDamage = function (Unit, damage) {
             if (Unit != null && Unit.isAlive && (Unit.isAttackable || this.isWizard)) {
                 Unit.TakeDamage(damage);
                 Unit.isAttackable = false;
                 this.ShowDamage(this.showDMG, Unit, "-" + damage.toString());
-                console.log("Do damage: " + this.name + " Take damage:" + Unit.name);
+                //console.log("Do damage: " + this.name + " Take damage:" + Unit.name);
                 this.damageDone = true;
             }
         };
@@ -1328,7 +1337,7 @@ var TurnBasedBattles;
                 _this.animation.tint = TurnBasedBattles.COLOR_HOVER_RED_NUM2;
                 //this.animation.input.useHandCursor = true;
                 _this.isHighlighted = true;
-                console.log("Highlighted");
+                //console.log("Highlighted");
             });
             this.animation.events.onInputOut.add(function () {
                 _this.animation.tint = TurnBasedBattles.COLOR_CLEAR_NUM;
@@ -1686,7 +1695,7 @@ var TurnBasedBattles;
             _this.game = game;
             _this.x = x;
             _this.y = y;
-            _this.animation = _this.game.add.sprite(_this.x, _this.y, "Camera");
+            _this.animation = _this.game.add.sprite(_this.x, _this.y, "");
             return _this;
         }
         Cam.prototype.update = function () {
@@ -1892,7 +1901,7 @@ var TurnBasedBattles;
             _this.unitScale = TurnBasedBattles.SIZE_MAGE;
             _this.battleFieldHeight = TurnBasedBattles.MAP_HEIGHT / 2;
             //Add sprite
-            _this.rectImage = _this.game.make.sprite(x, y, "elfMageEnemy-rect");
+            //this.rectImage = this.game.make.sprite(x, y, "elfMageEnemy-rect");
             _this.circleImage = _this.game.make.sprite(x, y, "elfMageEnemy-circle");
             _this.animation = _this.game.add.sprite(_this.x, _this.y, "elfMageEnemy");
             _this.animation.animations.add("idle", [0, 1, 2, 3, 4], 30);
@@ -2896,34 +2905,8 @@ var TurnBasedBattles;
             this.game.load.image("mechanism-2", "src/assets/UI/mechanism-2.png");
         };
         Boot.prototype.create = function () {
-            var _this = this;
             this.game.add.sprite(0, 0, "preloadBackground");
-            this.introText = this.game.add.text(this.game.width * 0.4, this.game.height * 0.8, "LOADING", {
-                font: TurnBasedBattles.FONT_BERKSHIRE,
-                fill: TurnBasedBattles.COLOR_ORANGE,
-                fontWeight: "bold",
-                fontSize: 50,
-                stroke: "#000000",
-                strokeThickness: 3
-            });
-            this.game.time.events.loop(1500, function () {
-                _this.introText.text += ".";
-            });
-            this.game.time.events.loop(20, function () {
-                _this.preloadImage.angle += 0.5;
-                _this.preloadImageClone.angle += -0.5;
-            });
-            this.preloadImage = this.game.add.sprite(600, 300, "mechanism-1");
-            this.preloadImage.angle = 90;
-            this.preloadImage.anchor.setTo(0.5, 0.5);
-            this.preloadImageClone = this.game.add.sprite(700, 400, "mechanism-2");
-            this.preloadImageClone.angle = 90;
-            this.preloadImageClone.anchor.setTo(0.5, 0.5);
-            this.game.time.events.add(6000, function () {
-                console.log("start312");
-                console.log("Start21");
-                _this.game.state.start(TurnBasedBattles.PRELOAD_STATE);
-            });
+            this.game.state.start(TurnBasedBattles.PRELOAD_STATE, false, false);
         };
         return Boot;
     }(Phaser.State));
@@ -2941,8 +2924,8 @@ var TurnBasedBattles;
             this.unitFormation = selectedUnitFormation;
             this.mapName = mapName;
             this.levelComplete = isComplete;
-            console.log("The given array of units from MAP: ");
-            console.log(this.unitFormation);
+            //console.log("The given array of units from MAP: ");
+            //console.log(this.unitFormation);
         };
         FieldBattle.prototype.create = function () {
             var _this = this;
@@ -2959,11 +2942,10 @@ var TurnBasedBattles;
             this.playerDeadSignal = new Phaser.Signal();
             this.enemiesDeadSignal = new Phaser.Signal();
             this.moveCameraSignal = new Phaser.Signal();
-            this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor.png'), pointer";
             for (var index = 0; index < this.unitFormation.length; index++) {
                 var unit = this.unitFormation[index];
                 if (unit === null) {
-                    console.log("Empty slot. Null");
+                    //console.log("Empty slot. Null");
                 }
                 else if (this.unitFormation[index] && (unit.name === TurnBasedBattles.GOLD_KNIGHT_STR)) {
                     this.unitFormation[index] = new TurnBasedBattles.Knight(this.game, TurnBasedBattles.PUNIT_ARRAY_X[index], TurnBasedBattles.PUNIT_ARRAY_Y[index], index + 1);
@@ -2981,7 +2963,7 @@ var TurnBasedBattles;
                     this.unitFormation[index] = new TurnBasedBattles.KnightAxe(this.game, TurnBasedBattles.PUNIT_ARRAY_X[index], TurnBasedBattles.PUNIT_ARRAY_Y[index], index + 1);
                 }
                 else {
-                    console.log("The " + unit.name + " is missing!");
+                    //console.log("The " + unit.name + " is missing!");
                 }
             }
             this.EnemyDeclaration(this.mapName);
@@ -2989,7 +2971,7 @@ var TurnBasedBattles;
             this.nextUnit = new TurnBasedBattles.Unit(this.game, 0, 0);
             this.game.physics.p2.enable(this.cam.animation);
             this.cam.animation.body.fixedRotation = true;
-            console.log("DRAW UI");
+            //console.log("DRAW UI");
             this.ui.drawFieldBattleStateUI();
             this.InitialFillUiSlots();
             this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -3004,7 +2986,7 @@ var TurnBasedBattles;
             this.attackSignal.add(function (canAttack, attackFinished, attackStarted) {
                 if (canAttack && attackFinished && attackStarted) {
                     _this.attackOrder();
-                    console.log("attack order DISPATCHED");
+                    //console.log("attack order DISPATCHED");
                 }
                 if (_this.unitExists(_this.currentUnit)) {
                     //console.log("1. CUR: " + this.currentUnit.name + " NEXT: " + this.nextUnit.name);
@@ -3032,15 +3014,15 @@ var TurnBasedBattles;
                 _this.currentUnit.highlightUnit2();
             });
             this.playerDeadSignal.addOnce(function () {
-                console.log("YOU'RE DEAD!!!");
+                //console.log("YOU'RE DEAD!!!");
                 _this.lvl = 0;
                 _this.activeGame = false;
                 _this.BattleLost();
             });
             this.enemiesDeadSignal.add(function () {
-                console.log("ENEMIES ARE ALL DEAD!!!");
+                //console.log("ENEMIES ARE ALL DEAD!!!");
                 _this.lvl++;
-                console.log("LEVEL " + _this.lvl);
+                //console.log("LEVEL " + this.lvl);
                 if (_this.lvl > 2) {
                     _this.activeGame = false;
                     _this.BattleWon();
@@ -3054,7 +3036,7 @@ var TurnBasedBattles;
                     }
                 }
             });
-            console.log(this.game.state.current.toString());
+            //console.log(this.game.state.current.toString());
         };
         FieldBattle.prototype.update = function () {
             this.cam.animation.body.setZeroVelocity();
@@ -3141,7 +3123,7 @@ var TurnBasedBattles;
             for (var index = 0; index < this.unitFormation.length; index++) {
                 var unit = this.unitFormation[index];
                 if (unit === null) {
-                    console.log("Empty slot at InitialFillUiSlots");
+                    //console.log("Empty slot at InitialFillUiSlots");
                 }
                 else {
                     this.FillUiSlot(this.unitFormation[index], TurnBasedBattles.HIDE_FROM_SCREEN, TurnBasedBattles.HIDE_FROM_SCREEN, true);
@@ -3199,7 +3181,7 @@ var TurnBasedBattles;
         };
         FieldBattle.prototype.ClearUiSlot = function (Unit) {
             if (Unit === null) {
-                console.log("Empty slot at ClearUiSlot");
+                //console.log("Empty slot at ClearUiSlot");
             }
             else {
                 Unit.circleImage.fixedToCamera = false;
@@ -3261,8 +3243,8 @@ var TurnBasedBattles;
             this.camera.fade(0x000000, 6500);
             this.camera.onFadeComplete.add(function () {
                 _this.game.state.start(TurnBasedBattles.TOWN_STATE, true, false, _this.ui, _this.unitFormation, _this.levelComplete);
-                console.log("The units after the battle is lost");
-                console.log(_this.unitFormation);
+                //console.log("The units after the battle is lost");
+                //console.log(this.unitFormation);
             });
             // gameLost.events.onInputDown.add(() => {
             //     this.game.state.start(TOWN_STATE, true, false, this.ui, this.unitFormation);
@@ -3286,8 +3268,8 @@ var TurnBasedBattles;
             gameWon.events.onInputDown.add(function () {
                 _this.game.state.start(TurnBasedBattles.MAP_STATE, true, false, _this.ui, _this.unitFormation, _this.mapName, _this.levelComplete);
                 //TODO: have to splice the array with the dead units
-                console.log("The units after the battle is over");
-                console.log(_this.unitFormation);
+                //console.log("The units after the battle is over");
+                //console.log(this.unitFormation);
             });
         };
         FieldBattle.prototype.PickPosition = function (Unit, number1, number2, number3, number4, number5, number6, temp) {
@@ -3318,7 +3300,7 @@ var TurnBasedBattles;
                     break;
                 }
                 default: {
-                    console.log("ERROR!");
+                    //console.log("ERROR!");
                     break;
                 }
             }
@@ -3384,7 +3366,7 @@ var TurnBasedBattles;
             if (!Unit.isAlive) {
                 Unit.x = this.PickPosition(Unit, TurnBasedBattles.EUNIT1_POS_X, TurnBasedBattles.EUNIT2_POS_X, TurnBasedBattles.EUNIT3_POS_X, TurnBasedBattles.EUNIT4_POS_X, TurnBasedBattles.EUNIT5_POS_X, TurnBasedBattles.EUNIT6_POS_X) + this.lvl * TurnBasedBattles.MOVEMENT;
                 Unit.y = this.PickPosition(Unit, TurnBasedBattles.EUNIT1_POS_Y, TurnBasedBattles.EUNIT2_POS_Y, TurnBasedBattles.EUNIT3_POS_Y, TurnBasedBattles.EUNIT4_POS_Y, TurnBasedBattles.EUNIT5_POS_Y, TurnBasedBattles.EUNIT6_POS_Y);
-                console.log("CALCULATED POSITION Y IS " + Unit.y);
+                //console.log("CALCULATED POSITION Y IS " + Unit.y);
                 Unit.animation.x = Unit.x;
                 Unit.animation.y = Unit.y;
                 Unit.pointerA_x = Unit.x;
@@ -3521,51 +3503,51 @@ var TurnBasedBattles;
         FieldBattle.prototype.pickNextUnit = function () {
             if ((this.unitExists(this.unitFormation[0])) && (this.currentUnit === this.unitFormation[0])) {
                 this.nextUnit = this.checkIfNull(this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0]);
-                console.log("I'm here 2");
+                //console.log("I'm here 2");
             }
             else if ((this.unitExists(this.unit1enemy)) && (this.currentUnit === this.unit1enemy)) {
                 this.nextUnit = this.checkIfNull(this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy);
-                console.log("I'm here 3");
+                //console.log("I'm here 3");
             }
             else if ((this.unitExists(this.unitFormation[1])) && (this.currentUnit === this.unitFormation[1])) {
                 this.nextUnit = this.checkIfNull(this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1]);
-                console.log("I'm here 4");
+                //console.log("I'm here 4");
             }
             else if ((this.unitExists(this.unit2enemy)) && (this.currentUnit === this.unit2enemy)) {
                 this.nextUnit = this.checkIfNull(this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy);
-                console.log("I'm here 5");
+                //console.log("I'm here 5");
             }
             else if ((this.unitExists(this.unitFormation[2])) && (this.currentUnit === this.unitFormation[2])) {
                 this.nextUnit = this.checkIfNull(this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2]);
-                console.log("I'm here 6");
+                //console.log("I'm here 6");
             }
             else if ((this.unitExists(this.unit3enemy)) && (this.currentUnit === this.unit3enemy)) {
                 this.nextUnit = this.checkIfNull(this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy);
-                console.log("I'm here 7");
+                //console.log("I'm here 7");
             }
             else if ((this.unitExists(this.unitFormation[3])) && (this.currentUnit === this.unitFormation[3])) {
                 this.nextUnit = this.checkIfNull(this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3]);
-                console.log("I'm here 8");
+                //console.log("I'm here 8");
             }
             else if ((this.unitExists(this.unit4enemy)) && (this.currentUnit === this.unit4enemy)) {
                 this.nextUnit = this.checkIfNull(this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy);
-                console.log("I'm here 9");
+                //console.log("I'm here 9");
             }
             else if ((this.unitExists(this.unitFormation[4])) && (this.currentUnit === this.unitFormation[4])) {
                 this.nextUnit = this.checkIfNull(this.unit5enemy, this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4]);
-                console.log("I'm here 10");
+                //console.log("I'm here 10");
             }
             else if ((this.unitExists(this.unit5enemy)) && (this.currentUnit === this.unit5enemy)) {
                 this.nextUnit = this.checkIfNull(this.unitFormation[5], this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy);
-                console.log("I'm here 11");
+                //console.log("I'm here 11");
             }
             else if ((this.unitExists(this.unitFormation[5])) && (this.currentUnit === this.unitFormation[5])) {
                 this.nextUnit = this.checkIfNull(this.unit6enemy, this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5]);
-                console.log("I'm here 12");
+                //console.log("I'm here 12");
             }
             else if ((this.unitExists(this.unit6enemy)) && (this.currentUnit === this.unit6enemy)) {
                 this.nextUnit = this.checkIfNull(this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy);
-                console.log("I'm here 1");
+                //console.log("I'm here 1");
             }
             else {
                 this.nextUnit = this.checkIfNull(this.unitFormation[0], this.unit1enemy, this.unitFormation[1], this.unit2enemy, this.unitFormation[2], this.unit3enemy, this.unitFormation[3], this.unit4enemy, this.unitFormation[4], this.unit5enemy, this.unitFormation[5], this.unit6enemy);
@@ -3593,17 +3575,17 @@ var TurnBasedBattles;
                 this.pickNextUnit();
                 this.currentUnit.canAttack = true;
             }
-            console.log(this.currentUnit, this.nextUnit);
+            //console.log(this.currentUnit, this.nextUnit);
         };
         FieldBattle.prototype.CurrentUnitAttack = function () {
             if (this.currentUnit.currentState === TurnBasedBattles.UnitStates.ATTACK) {
                 if (!this.currentUnit.isEnemy) {
                     this.currentUnit.DoDamage(this.unit1enemy, this.unit2enemy, this.unit3enemy, this.unit4enemy, this.unit5enemy, this.unit6enemy, this.currentUnit.strength);
-                    this.ui.attackSound(); ///////
+                    this.ui.attackSound(); /////
                 }
                 else {
                     this.currentUnit.DoDamage(this.unitFormation[0], this.unitFormation[1], this.unitFormation[2], this.unitFormation[3], this.unitFormation[4], this.unitFormation[5], this.currentUnit.strength);
-                    this.ui.attackSound(); //////
+                    this.ui.attackSound(); ////
                 }
             }
             if (this.PlayerDead()) {
@@ -3620,11 +3602,11 @@ var TurnBasedBattles;
         FieldBattle.prototype.ActivateEnemy = function () {
             if (this.activeGame) {
                 this.tempUnit = this.checkIfNull(this.unitFormation[0], this.unitFormation[1], this.unitFormation[2], this.unitFormation[3], this.unitFormation[4], this.unitFormation[5], this.unitFormation[0], this.unitFormation[1], this.unitFormation[2], this.unitFormation[3], this.unitFormation[4], this.unitFormation[5]);
-                console.log(this.activeGame);
+                //console.log(this.activeGame);
                 this.currentUnit.pointerB_x = this.tempUnit.x;
                 this.currentUnit.pointerB_y = this.tempUnit.y;
                 this.tempUnit.isAttackable = true;
-                console.log("Is Attackable " + this.tempUnit.isAttackable + " " + this.tempUnit.name);
+                //console.log("Is Attackable " + this.tempUnit.isAttackable + " " + this.tempUnit.name);
                 if (this.currentUnit.isMelee) {
                     this.currentUnit.currentState = TurnBasedBattles.UnitStates.WALKLEFT;
                 }
@@ -3689,17 +3671,19 @@ var TurnBasedBattles;
             this.ui = uiClass;
             this.unitFormation = selectedUnitFormation;
             //console.log(this.ui.playMusic);
-            console.log("The selected units from previous state: ");
-            console.log(this.unitFormation);
+            //console.log("The selected units from previous state: ");
+            //console.log(this.unitFormation);
             this.mapCompleted(background, levelComplete);
         };
         Map.prototype.create = function () {
-            this.loadMapBackground();
+            this.backgroundMap = this.game.add.image(0, 0, "map-bg");
+            this.backgroundMap.width = MAP_WIDTH;
+            this.backgroundMap.height = MAP_HEIGHT;
+            this.drawMissionIcons();
             this.ui.drawMapStateUI();
-            //fix for ivelin's code ;)
+            //fix for when returning from battle the input is disabled
             //TODO: do it right
             this.game.input.enabled = true;
-            this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor2.png'), pointer";
         };
         Map.prototype.mapCompleted = function (background, isComplete) {
             switch (background) {
@@ -3753,10 +3737,7 @@ var TurnBasedBattles;
                 _this.game.state.start(TurnBasedBattles.FIELD_BATTLE_STATE, true, false, _this.ui, _this.unitFormation, background, isComplete);
             });
         };
-        Map.prototype.loadMapBackground = function () {
-            this.backgroundMap = this.game.add.image(0, 0, "map-bg");
-            this.backgroundMap.width = MAP_WIDTH;
-            this.backgroundMap.height = MAP_HEIGHT;
+        Map.prototype.drawMissionIcons = function () {
             this.loadMission(this.mapMissionOne, 900, 310, "Forest", this.missionOneCompleted);
             if (this.missionOneCompleted) {
                 this.loadMission(this.mapMissionTwo, 1050, 420, "Waterfall", this.missionTwoCompleted);
@@ -3789,25 +3770,22 @@ var TurnBasedBattles;
             this.ui = uiClass;
         };
         Menu.prototype.create = function () {
-            this.createBackground();
+            var backgroundImage = this.game.add.sprite(0, 0, "menuBackground");
             this.menuGameTitle();
             this.ui.drawMenuStateUI();
-            this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor2.png'), pointer";
-        };
-        Menu.prototype.createBackground = function () {
-            this.backgroundImage = this.game.add.sprite(0, 0, "menuBackground");
         };
         Menu.prototype.menuGameTitle = function () {
-            console.log("In menu2345");
-            this.titleBanner = this.game.add.sprite(433, 65, "titleBanner");
-            this.titleBanner.scale.setTo(0.5, 0.5);
-            this.titleBanner.width = 940;
-            this.gameTitle = this.game.add.text(630, 80, "Protectors of Goldcrest", { font: TurnBasedBattles.FONT_BERKSHIRE,
+            var titleBanner = this.game.add.sprite(433, 65, "titleBanner");
+            titleBanner.scale.setTo(0.5, 0.5);
+            titleBanner.width = 940;
+            var gameTitle = this.game.add.text(630, 80, "Protectors of Goldcrest", {
+                font: TurnBasedBattles.FONT_BERKSHIRE,
                 fontWeight: "bold",
                 fontSize: 55,
                 fill: TurnBasedBattles.COLOR_ORANGE,
                 stroke: "#000000",
-                strokeThickness: 3 });
+                strokeThickness: 3
+            });
         };
         return Menu;
     }(Phaser.State));
@@ -3820,7 +3798,19 @@ var TurnBasedBattles;
         function Preload() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        Preload.prototype.preload = function () {
+        Preload.prototype.create = function () {
+            this.preloadImage = this.game.add.sprite(600, 300, "mechanism-1");
+            this.preloadImage.angle = 90;
+            this.preloadImage.anchor.setTo(0.5, 0.5);
+            this.preloadImageClone = this.game.add.sprite(700, 400, "mechanism-2");
+            this.preloadImageClone.angle = 90;
+            this.preloadImageClone.anchor.setTo(0.5, 0.5);
+            this.startLoading();
+            this.game.load.onLoadStart.add(this.startLoading, this);
+            this.game.load.onFileComplete.add(this.fileComplete, this);
+            this.game.load.onLoadComplete.add(this.loadComplete, this);
+        };
+        Preload.prototype.startLoading = function () {
             // Menu
             this.game.load.image("menuBackground", "src/assets/backgrounds/menuBackground.jpg");
             this.game.load.image("menuButton1", "src/assets/UI/menuButton1.png");
@@ -3869,7 +3859,7 @@ var TurnBasedBattles;
             this.game.load.image("BattleCursor", "src/assets/battlefield/icons/cursor.png");
             this.game.load.image("BattleCursor", "src/assets/battlefield/icons/cursor2.png");
             this.game.load.image("BattleCursor", "src/assets/battlefield/icons/cursor3.png");
-            // PLAYER UNITS:
+            //**** PLAYER UNITS: ***/
             // Knight Gold
             this.game.load.image("knight-rect", "src/assets/characters/knightGold/knight-rect.png");
             this.game.load.image("knight-circle", "src/assets/characters/knightGold/knight-circle.png");
@@ -3890,7 +3880,7 @@ var TurnBasedBattles;
             this.game.load.image("elfMage-rect", "src/assets/characters/elfMage/elfMage-rect.png");
             this.game.load.image("elfMage-circle", "src/assets/characters/elfMage/elfMage-circle.png");
             this.game.load.atlas("elfMage", "src/assets/characters/elfMage/elfMage.png", "src/assets/characters/elfMage/elfMage.json");
-            // ENEMY UNITS:
+            //**** ENEMY UNITS: ****/
             // Troll Club
             this.game.load.image("trollClub-circle", "src/assets/characters/trollClub/trollClub-circle.png");
             this.game.load.atlas("trollClub", "src/assets/characters/trollClub/trollClub.png", "src/assets/characters/trollClub/trollClub.json");
@@ -3949,10 +3939,23 @@ var TurnBasedBattles;
             this.game.load.audio("gamewin", "src/assets/sounds/gamewin.mp3");
             this.game.load.audio("sword_attack", "src/assets/sounds/sword_attack.wav");
             this.game.load.audio("bell", "src/assets/sounds/bell.wav");
+            var introText = this.game.add.text(this.game.width * 0.4, this.game.height * 0.8, "LOADING", {
+                font: TurnBasedBattles.FONT_BERKSHIRE,
+                fill: TurnBasedBattles.COLOR_ORANGE,
+                fontWeight: "bold",
+                fontSize: 50,
+                stroke: "#000000",
+                strokeThickness: 3
+            });
+            this.game.load.start();
         };
-        Preload.prototype.create = function () {
+        Preload.prototype.loadComplete = function () {
             this.ui = new TurnBasedBattles.DrawUi(this.game, 0, 0, false);
             this.game.state.start(TurnBasedBattles.MENU_STATE, false, false, this.ui);
+        };
+        Preload.prototype.fileComplete = function () {
+            this.preloadImage.angle += 0.5;
+            this.preloadImageClone.angle += -0.5;
         };
         return Preload;
     }(Phaser.State));
@@ -3975,8 +3978,8 @@ var TurnBasedBattles;
             this.ui = uiClass;
             this.unitFormation = selectedUnitFormation;
             //this.playerDead = playerDead;
-            console.log("The selected units from MAP: ");
-            console.log(this.unitFormation);
+            //console.log("The selected units from MAP: ");
+            //console.log(this.unitFormation);
         };
         Town.prototype.create = function () {
             this.loadTown();
@@ -3985,7 +3988,7 @@ var TurnBasedBattles;
             this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor2.png'), pointer";
         };
         Town.prototype.openCharacterMenu = function (open) {
-            console.log("Clicked on museum");
+            //console.log("Clicked on museum");
             this.ui.isUnitSelectionOpen(open, this.unitFormation);
             this.armory.inputEnabled = false;
             this.questTower.inputEnabled = false;
@@ -3995,9 +3998,9 @@ var TurnBasedBattles;
             this.loadBarracks();
             this.loadArmory();
             this.loadQuestTower();
-            this.loadInfoText();
+            this.loadTutorialText();
         };
-        Town.prototype.loadInfoText = function () {
+        Town.prototype.loadTutorialText = function () {
             var _this = this;
             if ((this.unitFormation === undefined)) {
                 var introSprite_1 = this.game.add.sprite(300, 75, "bg-big");
@@ -4022,7 +4025,7 @@ var TurnBasedBattles;
                         introSprite_1.destroy();
                         //bmd.clear();
                         introText_1.destroy();
-                        console.log("destroyed stuf");
+                        //console.log("destroyed stuf");
                         //*****************part*two******************//
                         var secondSprite = _this.game.add.sprite(_this.game.width - 400, 100, "bg-small");
                         var secondText = _this.game.add.text(_this.game.width / 2, _this.game.height / 2, "\nAdd a few units to your army\nand set their position.\n" +
@@ -4043,7 +4046,7 @@ var TurnBasedBattles;
                                 secondSprite.destroy();
                                 //newBmd.clear();
                                 secondText.destroy();
-                                console.log("destroyed stuf");
+                                //console.log("destroyed stuf");
                             });
                         });
                     });
@@ -4070,20 +4073,20 @@ var TurnBasedBattles;
                         upgradesSprite_1.destroy();
                         //newBmd.clear();
                         upgradesText_1.destroy();
-                        console.log("destroyed null");
+                        //console.log("destroyed null");
                         _this.intro = false;
                     });
                 });
                 //console.log("YOU WON, Coming from town");
                 //} else {
-                //    console.log("You LOST, Coming from town dead first battle");
+                //    //console.log("You LOST, Coming from town dead first battle");
                 //}
             }
             else if (!this.intro && (this.unitFormation !== undefined)) {
                 //Don't display text
             }
             //if (!this.playerDead) {
-            //    console.log("You LOST, Coming from town");
+            //    //console.log("You LOST, Coming from town");
             //}
         };
         Town.prototype.loadBarracks = function () {
@@ -4130,7 +4133,7 @@ var TurnBasedBattles;
                 _this.questTower.tint = TurnBasedBattles.COLOR_CLEAR_NUM;
             });
             this.questTower.events.onInputDown.add(function () {
-                console.log("clicked on bell");
+                //console.log("clicked on bell");
                 _this.ui.bellSound();
                 // TODO: add this...
             });
@@ -4164,7 +4167,7 @@ var TurnBasedBattles;
             });
         };
         Town.prototype.openArmoryMenu = function (isOpen) {
-            console.log("Clicked on armory");
+            //console.log("Clicked on armory");
             //console.log(isOpen);
             this.ui.isUpgradeUnitsMenuOpen(isOpen, this.unitFormation);
             this.barracks.inputEnabled = false;
