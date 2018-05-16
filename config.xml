@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = "com.gmail.at.krasen007"
+    versionCode = "10"
+    version     = "1.0.0" >
+
+<!-- versionCode is optional and Android only -->
+
+  <name>Protectors of Goldcrest</name>
+
+  <description>
+      Turn based battles.
+  </description>
+
+  <author href="https://www.facebook.com/krasen007" email="krasen007@gmail.com">
+      Krasen Ivanov
+      Ivelin Rachev
+      Svilen Terziev
+  </author>
+
+  <icon src="icon.png" />
+
+  <preference name="fullscreen" value="true" />
+  <preference name="orientation" value="landscape" />
+
+</widget>

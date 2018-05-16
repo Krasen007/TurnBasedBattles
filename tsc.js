@@ -185,15 +185,19 @@ var TurnBasedBattles;
     var ARMORY_POS_X = 370;
     var ARMORY_POS_Y = 50;
     var TOP_BUTTON_COLOR = "#2d2e30";
-    var BOTTOM_BUTTON_COLOR = "#d1861d";
     var TOP_BUTTON_COLOR_HOVER = "#181b21";
+    var BOTTOM_BUTTON_COLOR = "#d1861d";
     var BOTTOM_BUTTON_COLOR_HOVER = "#f26321";
+    var TUTORIALS_TEXT_COLOR = "#d11119";
     var DrawUi = /** @class */ (function (_super) {
         __extends(DrawUi, _super);
         function DrawUi(game, x, y, playMusic) {
             var _this = _super.call(this, game, x, y) || this;
             _this.game = game;
             _this.playMusic = playMusic;
+            _this.isOpen = false;
+            _this.tutorialsEnabled = true;
+            DrawUi.avaliableUserMoney = TurnBasedBattles.START_MONEY;
             return _this;
         }
         DrawUi.prototype.drawMenuStateUI = function () {
@@ -210,8 +214,10 @@ var TurnBasedBattles;
             this.createMenuSpeakerButton();
             this.createMenuMuteButton();
             this.createMenuExitButton();
+            this.createMenuTutorialsButton();
         };
         DrawUi.prototype.drawTownStateUI = function (unitFormation) {
+            //console.log(DrawUi.avaliableUserMoney);
             var _this = this;
             // TODO: this must not be here, because they are created every time
             this.unitSelectionMenu = new TurnBasedBattles.SelectUnits(this.game, 0, 0, unitFormation);
@@ -474,7 +480,7 @@ var TurnBasedBattles;
                 _this.startButtonText.fill = TOP_BUTTON_COLOR;
             });
             this.startButton.events.onInputDown.add(function () {
-                _this.game.state.start(TurnBasedBattles.TOWN_STATE, true, false, _this);
+                _this.game.state.start(TurnBasedBattles.TOWN_STATE, true, false, _this, undefined, _this.tutorialsEnabled);
                 if (_this.playMusic) {
                     _this.clickIconSound();
                     _this.stopCurrentMusic();
@@ -496,19 +502,34 @@ var TurnBasedBattles;
                 _this.optionsButtonText.fill = TOP_BUTTON_COLOR;
             });
             this.optionsButton.events.onInputDown.add(function () {
-                //console.log("clicked on options");
-                if (_this.speakerButton.alpha === 0) {
+                if (_this.isOpen) {
                     _this.speakerButton.alpha = 1;
-                }
-                else if (_this.speakerButton.alpha === 1) {
-                    _this.speakerButton.alpha = 0;
-                }
-                if (_this.muteButton.alpha === 0) {
                     _this.muteButton.alpha = 1;
+                    _this.enableTutorialsText.alpha = 1;
+                    _this.isOpen = false;
                 }
-                else if (_this.muteButton.alpha === 1) {
+                else {
+                    _this.speakerButton.alpha = 0;
                     _this.muteButton.alpha = 0;
+                    _this.enableTutorialsText.alpha = 0;
+                    _this.isOpen = true;
                 }
+            });
+        };
+        DrawUi.prototype.createMenuTutorialsButton = function () {
+            var _this = this;
+            this.enableTutorialsText = this.game.add.text(this.game.width * 0.22, this.game.height * 0.54, "Disable tutorials ? <OK>", {
+                font: "27px Acme",
+                fill: TUTORIALS_TEXT_COLOR,
+                align: "center"
+            });
+            this.enableTutorialsText.anchor.setTo(0.5);
+            this.enableTutorialsText.alpha = 0;
+            this.enableTutorialsText.inputEnabled = true;
+            this.enableTutorialsText.events.onInputDown.addOnce(function () {
+                _this.enableTutorialsText.inputEnabled = false;
+                _this.enableTutorialsText.destroy();
+                _this.tutorialsEnabled = false;
             });
         };
         DrawUi.prototype.createMenuSpeakerButton = function () {
@@ -567,7 +588,6 @@ var TurnBasedBattles;
                 _this.game.destroy();
             });
         };
-        DrawUi.avaliableUserMoney = TurnBasedBattles.START_MONEY;
         return DrawUi;
     }(Phaser.Sprite));
     TurnBasedBattles.DrawUi = DrawUi;
@@ -2889,7 +2909,6 @@ var TurnBasedBattles;
     }(TurnBasedBattles.EnemyMeleeUnit));
     TurnBasedBattles.WomanSword = WomanSword;
 })(TurnBasedBattles || (TurnBasedBattles = {}));
-/// <reference path = "../../lib/phaser.d.ts"/>
 var TurnBasedBattles;
 (function (TurnBasedBattles) {
     var Boot = /** @class */ (function (_super) {
@@ -2898,8 +2917,8 @@ var TurnBasedBattles;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Boot.prototype.preload = function () {
-            //this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            //this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.game.load.image("preloadBackground", "src/assets/backgrounds/preload-bg.jpg");
             this.game.load.image("mechanism-1", "src/assets/UI/mechanism-1.png");
             this.game.load.image("mechanism-2", "src/assets/UI/mechanism-2.png");
@@ -3961,9 +3980,6 @@ var TurnBasedBattles;
     }(Phaser.State));
     TurnBasedBattles.Preload = Preload;
 })(TurnBasedBattles || (TurnBasedBattles = {}));
-/// <reference path = "../../lib/phaser.d.ts"/>
-/// <reference path = "../Utilites.ts"/>
-/// <reference path = "../UI/DrawUI.ts"/>
 var TurnBasedBattles;
 (function (TurnBasedBattles) {
     var Town = /** @class */ (function (_super) {
@@ -3974,9 +3990,12 @@ var TurnBasedBattles;
             return _this;
         }
         //private playerDead: boolean;
-        Town.prototype.init = function (uiClass, selectedUnitFormation, playerDead) {
+        Town.prototype.init = function (uiClass, selectedUnitFormation, tutorialsEnabled) {
             this.ui = uiClass;
             this.unitFormation = selectedUnitFormation;
+            this.tutorialsEnabled = tutorialsEnabled;
+            //console.log(this.tutorialsEnabled);
+            //console.log(this.unitFormation);
             //this.playerDead = playerDead;
             //console.log("The selected units from MAP: ");
             //console.log(this.unitFormation);
@@ -3986,6 +4005,7 @@ var TurnBasedBattles;
             this.ui.drawTownStateUI(this.unitFormation);
             this.ui.townMusic();
             this.game.canvas.style.cursor = "url('src/assets/battlefield/icons/cursor2.png'), pointer";
+            //console.log("TOWN");
         };
         Town.prototype.openCharacterMenu = function (open) {
             //console.log("Clicked on museum");
@@ -3998,7 +4018,9 @@ var TurnBasedBattles;
             this.loadBarracks();
             this.loadArmory();
             this.loadQuestTower();
-            this.loadTutorialText();
+            if (this.tutorialsEnabled) {
+                this.loadTutorialText();
+            }
         };
         Town.prototype.loadTutorialText = function () {
             var _this = this;
