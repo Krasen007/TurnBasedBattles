@@ -3,7 +3,7 @@
     xmlns:gap   = "http://phonegap.com/ns/1.0"
     id          = "com.gmail.at.krasen007"
     versionCode = "10"
-    version     = "1.0.0" >
+    version     = "1.0.1" >
 
 <!-- versionCode is optional and Android only -->
 
@@ -14,9 +14,7 @@
   </description>
 
   <author href="https://www.facebook.com/krasen007" email="krasen007@gmail.com">
-      Krasen Ivanov
-      Ivelin Rachev
-      Svilen Terziev
+      Krasen Ivanov and Ivelin Rachev and Svilen Terziev
   </author>
 
   <icon src="icon.png" />

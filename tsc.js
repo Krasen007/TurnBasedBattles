@@ -586,6 +586,19 @@ var TurnBasedBattles;
                     _this.clickIconSound();
                 }
                 _this.game.destroy();
+                // @ts-ignore: for cordova stuff
+                if (navigator.app) {
+                    // @ts-ignore: for cordova stuff
+                    navigator.app.exitApp();
+                    // @ts-ignore: for cordova stuff
+                }
+                else if (navigator.device) {
+                    // @ts-ignore: for cordova stuff
+                    navigator.device.exitApp();
+                }
+                else {
+                    window.close();
+                }
             });
         };
         return DrawUi;
@@ -2917,8 +2930,8 @@ var TurnBasedBattles;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         Boot.prototype.preload = function () {
-            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            //this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+            //this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.game.load.image("preloadBackground", "src/assets/backgrounds/preload-bg.jpg");
             this.game.load.image("mechanism-1", "src/assets/UI/mechanism-1.png");
             this.game.load.image("mechanism-2", "src/assets/UI/mechanism-2.png");
@@ -3949,15 +3962,15 @@ var TurnBasedBattles;
             this.game.load.image("boss-circle", "src/assets/characters/boss/trollBone-circle.png");
             this.game.load.atlas("boss", "src/assets/characters/boss/trollBone.png", "src/assets/characters/boss/trollBone.json");
             // Sounds
-            this.game.load.audio("buttonClick", "src/assets/sounds/buttonClick.wav");
             this.game.load.audio("menuTheme", "src/assets/sounds/menuTheme.mp3");
-            this.game.load.audio("townTheme", "src/assets/sounds/townTheme.wav");
+            this.game.load.audio("townTheme", "src/assets/sounds/townTheme.mp3");
+            this.game.load.audio("bell", "src/assets/sounds/bell.mp3");
+            this.game.load.audio("buttonClick", "src/assets/sounds/buttonClick.wav");
             this.game.load.audio("mapTheme", "src/assets/sounds/mapTheme.mp3");
-            this.game.load.audio("battleTheme", "src/assets/sounds/battleTheme.wav");
+            this.game.load.audio("battleTheme", "src/assets/sounds/battleTheme.mp3");
+            this.game.load.audio("sword_attack", "src/assets/sounds/sword_attack.wav");
             this.game.load.audio("game_over", "src/assets/sounds/game_over.mp3");
             this.game.load.audio("gamewin", "src/assets/sounds/gamewin.mp3");
-            this.game.load.audio("sword_attack", "src/assets/sounds/sword_attack.wav");
-            this.game.load.audio("bell", "src/assets/sounds/bell.wav");
             var introText = this.game.add.text(this.game.width * 0.4, this.game.height * 0.8, "LOADING", {
                 font: TurnBasedBattles.FONT_BERKSHIRE,
                 fill: TurnBasedBattles.COLOR_ORANGE,
